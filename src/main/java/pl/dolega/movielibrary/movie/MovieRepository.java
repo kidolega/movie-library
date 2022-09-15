@@ -19,7 +19,7 @@ public class MovieRepository {
     }
 
     public Movie getById(int id) {
-        return jdbcTemplate.queryForObject("SELECT id, title, rating FROM movie WHERE id = ?",
+        return jdbcTemplate.queryForObject("SELECT id, title, rating FROM movie WHERE id=?",
                 BeanPropertyRowMapper.newInstance(Movie.class), id);
     }
 
@@ -29,5 +29,14 @@ public class MovieRepository {
                         movie.getTitle(), movie.getRating()
                 ));
         return 1;
+    }
+
+    public int update(Movie movie) {
+        return jdbcTemplate.update("UPDATE movie SET title=?, rating=? WHERE id=?",
+                movie.getTitle(), movie.getRating(), movie.getId());
+    }
+
+    public int delete(int id) {
+        return jdbcTemplate.update("DELETE FROM movie WHERE id=?", id);
     }
 }
